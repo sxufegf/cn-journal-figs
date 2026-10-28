@@ -55,6 +55,23 @@ python scripts/check_figure.py figures/
 > **Fig. 4**  Survival rate by (a) sex, (b) passenger class ...
 ```
 
+## 出图示例（examples/）
+
+以下 15 幅图均由本技能工作流产出并通过 `check_figure.py` 全项自检（PDF 内嵌 SimSun + TimesNewRomanPSMT、无 Type3；PNG 600 dpi、半栏 8 cm / 通栏 15 cm；彩色类别灰度可辨）。每幅同时提供矢量 PDF（投稿）与 600 dpi PNG（校对），体现双格式导出约定。
+
+| 示例 | 说明 |
+|---|---|
+| ![时空依赖示意](examples/W1_01_fig01_spatial_dependence_schematic.png) | 空间依赖示意图（组合图版式） |
+| ![缺失模式](examples/W1_02_fig01_missing_pattern.png) | 缺失值模式图 |
+| ![目标与缺失](examples/W1_03_fig01_target_missing.png) | 目标变量分布与缺失 |
+| ![EDA 分类图](examples/W1_03_fig02_eda_categories.png) | 分类因子 EDA（多面板等大） |
+| ![混淆矩阵与 ROC](examples/W1_03_fig05_final_confusion_roc.png) | 混淆矩阵 + ROC 组合图 |
+| ![置换重要性](examples/W1_03_fig08_permutation_importance.png) | 置换重要性条形图 |
+| ![SHAP](examples/W1_03_fig09_shap_optional.png) | SHAP 蜂群图（字号重设后符合规范） |
+| ![空间 CV 示意](examples/W1_03_fig10_spatial_cv_schematic.png) | 空间分块交叉验证示意 |
+
+完整清单见 `examples/` 目录（15 幅 × PNG + PDF 双格式）。
+
 ## 目录结构
 
 ```
@@ -63,7 +80,8 @@ cn-journal-figs/
 ├── assets/journal_init.py        # 初始化单元（rcParams + 4 个辅助函数）
 ├── references/figure_spec.md     # 制图规范全文（12 节 + 投稿前检查清单）
 ├── references/layout_recipes.md  # 组合图版式与常用图元代码配方
-└── scripts/check_figure.py       # 图件自检脚本（PDF 字体 / PNG 尺寸 / 灰度可辨性）
+├── scripts/check_figure.py       # 图件自检脚本（PDF 字体 / PNG 尺寸 / 灰度可辨性）
+└── examples/                     # 15 幅规范出图示例（PNG + PDF 双格式，全部通过自检）
 ```
 
 ## 适用范围
