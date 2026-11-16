@@ -22,9 +22,11 @@ agent_created: true
 | 资源 | 用途 |
 |---|---|
 | `assets/journal_init.py` | 初始化单元：rcParams 全套 + `savefig/panel/center_bottom_left/save_table` 辅助函数，整段复制到 notebook 首个代码单元 |
+| `references/font_spec.md` | 中英混排字体规范：宋体+TNR 逐字形回退、mathtext 吞字陷阱、Unicode 上下标写法、故障对照 |
 | `references/layout_recipes.md` | 组合图版式与常用图元代码配方（2×2、三图居中、GridSpec、colorbar、双 y 轴、三重编码、显著性 bracket、图注模板、地图合规） |
 | `references/figure_spec.md` | 制图规范全文（12 节 + 检查清单），细节争议时查这一份 |
 | `scripts/check_figure.py` | 图件自检脚本：PDF 字体嵌入/Type3、PNG 物理尺寸与 dpi、灰度可辨性 |
+| `scripts/check_fonts.py` | 字体自检脚本：字体栈命中、逐字形覆盖（按栈回退语义）、mathtext 吞字风险 |
 
 ## 工作流
 
@@ -56,10 +58,11 @@ agent_created: true
 用 Python（含 Pillow 的环境，如 geospatial）运行：
 
 ```bash
-python <skill目录>/scripts/check_figure.py figures/fig.pdf figures/fig.png
+python <skill目录>/scripts/check_figure.py figures/fig.pdf figures/fig.png   # 图件自检
+python <skill目录>/scripts/check_fonts.py [--text "待检标注串"]               # 字体与字形自检
 ```
 
-检查 PDF 字体嵌入与 Type3、PNG 物理宽度（8/15 cm）与 dpi、彩色类别灰度可辨性。FAIL 项必须修复后重出。
+`check_figure.py` 检查 PDF 字体嵌入与 Type3、PNG 物理宽度（8/15 cm）与 dpi、彩色类别灰度可辨性；`check_fonts.py` 另检查字体栈命中、缺字字形与"汉字+`$...$`"混排风险（详见 `font_spec.md`）。FAIL 项必须修复后重出。
 
 ### 5. 特殊场景路由
 
@@ -72,6 +75,7 @@ python <skill目录>/scripts/check_figure.py figures/fig.pdf figures/fig.png
 ## 关键陷阱速记
 
 - `sns.set_theme()` 覆盖字体 → 字体设置必须在其后；
+- **同一字符串里汉字与 `$...$` 混排 → 整串走 mathtext 管线，汉字变方块** → 中文串禁 `$`，数学符号改 Unicode 上下标（`mm·a⁻¹`、`R²`、`10⁻³`、`α`、`45°`，详见 `font_spec.md` 坑 1）；
 - `pdf.fonttype=42` 不设 → Type3 伪字体，编辑部退回；
 - `axes.unicode_minus=False` 不设 → 宋体缺 U+2212，负号显示为方块；
 - tight_layout 后调用 set_position 无效 → 先 tight 后平移；

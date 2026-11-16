@@ -5,10 +5,12 @@
 ## 功能
 
 - **期刊级初始化**：中文宋体（SimSun）+ Times New Roman 逐字形回退、刻度朝内四周齐全、图内无标题、字号 9/8 pt 全局统一、`pdf.fonttype=42` 防 Type3；
+- **中英混排字体规范**：`references/font_spec.md`——逐字形回退机制、"汉字+`$...$`"被 mathtext 吞成方块的陷阱与 Unicode 上下标写法、八类故障对照表；
 - **组合图版式**：4 幅 = 2×2；3 幅 = 2×2 第二行居中（面板等大、只平移不加宽）；5–6 幅 = 2 行 3 列；
 - **辅助函数**：`savefig`（矢量 PDF + 600 dpi PNG 双格式落盘并行内显示）、`panel`（面板编号统一位于上方外侧左上角）、`center_bottom_left`（三图居中版式）、`save_table`（`utf-8-sig` CSV）；
 - **代码配方**：共享坐标轴、双 y 轴着色、共用 colorbar（`vmin/vmax` 全局统一）、线型+标记+颜色三重编码（黑白打印可辨）、显著性 bracket、图注四段式模板、地图合规红线（审图号、南海诸岛完整表示）；
-- **图件自检脚本**：一键检查 PDF 字体嵌入与 Type3、PNG 物理尺寸（半栏 8 cm / 通栏 15 cm）与 dpi、彩色类别灰度可辨性。
+- **图件自检脚本**：一键检查 PDF 字体嵌入与 Type3、PNG 物理尺寸（半栏 8 cm / 通栏 15 cm）与 dpi、彩色类别灰度可辨性；
+- **字体自检脚本**：`scripts/check_fonts.py`——字体栈命中、逐字形覆盖（按字体栈回退语义判定）、"汉字+`$...$`"mathtext 吞字风险检测。
 
 ## 安装
 
@@ -38,12 +40,16 @@ panel(axes[0, 0], "(a)"); panel(axes[0, 1], "(b)"); panel(axes[1, 0], "(c)")
 savefig(fig, "fig04_layout.png")
 ```
 
-### 3. 图件自检
+### 3. 图件与字体自检
 
 ```bash
 python scripts/check_figure.py figures/fig.pdf figures/fig.png
 # 或整目录递归检查
 python scripts/check_figure.py figures/
+
+# 字体与字形自检（中英混排，详见 references/font_spec.md）
+python scripts/check_fonts.py
+python scripts/check_fonts.py --text "通量 1.2×10⁻³ W·m⁻²"
 ```
 
 ### 4. 图注四段式
@@ -57,10 +63,11 @@ python scripts/check_figure.py figures/
 
 ## 出图示例（examples/）
 
-以下 15 幅图均由本技能工作流产出并通过 `check_figure.py` 全项自检（PDF 内嵌 SimSun + TimesNewRomanPSMT、无 Type3；PNG 600 dpi、半栏 8 cm / 通栏 15 cm；彩色类别灰度可辨）。每幅同时提供矢量 PDF（投稿）与 600 dpi PNG（校对），体现双格式导出约定。
+以下示例图均由本技能工作流产出并通过 `check_figure.py` 全项自检（PDF 内嵌 SimSun + TimesNewRomanPSMT、无 Type3；PNG 600 dpi、半栏 8 cm / 通栏 15 cm；彩色类别灰度可辨）。每幅同时提供矢量 PDF（投稿）与 600 dpi PNG（校对），体现双格式导出约定。
 
 | 示例 | 说明 |
 |---|---|
+| ![中英混排示例](examples/font_mixing_demo.png) | 中英混排字体配置示例（宋体 + TNR，Unicode 上下标，含源码 `font_mixing_demo.py`） |
 | ![时空依赖示意](examples/W1_01_fig01_spatial_dependence_schematic.png) | 空间依赖示意图（组合图版式） |
 | ![缺失模式](examples/W1_02_fig01_missing_pattern.png) | 缺失值模式图 |
 | ![目标与缺失](examples/W1_03_fig01_target_missing.png) | 目标变量分布与缺失 |
@@ -79,9 +86,11 @@ cn-journal-figs/
 ├── SKILL.md                      # 技能入口：触发条件 + 五步工作流 + 陷阱速记
 ├── assets/journal_init.py        # 初始化单元（rcParams + 4 个辅助函数）
 ├── references/figure_spec.md     # 制图规范全文（12 节 + 投稿前检查清单）
+├── references/font_spec.md       # 中英混排字体规范（宋体 + TNR，mathtext 陷阱）
 ├── references/layout_recipes.md  # 组合图版式与常用图元代码配方
 ├── scripts/check_figure.py       # 图件自检脚本（PDF 字体 / PNG 尺寸 / 灰度可辨性）
-└── examples/                     # 15 幅规范出图示例（PNG + PDF 双格式，全部通过自检）
+├── scripts/check_fonts.py        # 字体自检脚本（字体栈 / 缺字 / mathtext 吞字风险）
+└── examples/                     # 规范出图示例（PNG + PDF 双格式，全部通过自检）
 ```
 
 ## 适用范围
