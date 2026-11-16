@@ -38,7 +38,7 @@ agent_created: true
 
 1. **图内无标题**：禁用 `set_title`/`suptitle`，图题写在图下方 markdown 图注（四段式：编号总述 / 面板释义 / 符号约定 / 结论解读，见 `layout_recipes.md` 第 11 节模板）；
 2. **按印刷尺寸出图**：半栏 8 cm（`HALF_W`）、通栏 15 cm（`FULL_W`），字号 9/8 pt 全局 rcParams，不逐图手写 `fontsize=`；
-3. **面板编号**：`panel(ax, "(a)")`，统一在面板上方外侧左上角 `(0.03, 1.04)`；
+3. **面板编号**：非单图必须用 (a)(b)(c)(d) 编号并在图注中逐一注明各面板的图示意义；编号统一在面板上方外侧左上角 `(0.03, 1.04)`（`panel(ax, "(a)")`）；
 4. **双格式落盘**：`savefig(fig, "...png")` 同时出矢量 PDF + 600 dpi PNG 并行内显示。
 
 ### 3. 组合图版式（用户重点约定）
@@ -80,4 +80,5 @@ python <skill目录>/scripts/check_fonts.py [--text "待检标注串"]          
 - `axes.unicode_minus=False` 不设 → 宋体缺 U+2212，负号显示为方块；
 - tight_layout 后调用 set_position 无效 → 先 tight 后平移；
 - `savefig(bbox_inches="tight")` 会改变物理尺寸（15 cm 可能变 14.8 cm），期刊严格要求尺寸时用 `subplots_adjust`；
-- shap 等第三方库会重置字号/标题 → 出图后显式重设 `ax.set_xlabel(..., fontsize=9)`、清空自带标题。
+- shap 等第三方库会重置字号/标题 → 出图后显式重设 `ax.set_xlabel(..., fontsize=9)`、清空自带标题；
+- **非单图两条铁律**：面板必须有 a/b/c/d 编号 + 图注必须逐一注明图示意义，缺一即退修（见 `figure_spec.md` §3.3）。

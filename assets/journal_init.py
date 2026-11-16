@@ -77,7 +77,11 @@ def savefig(fig, filename: str, dpi: int = 600):
 
 
 def panel(ax, tag: str) -> None:
-    """面板编号 (a)(b)(c)：统一置于面板上方外侧左上角，全篇同一坐标。"""
+    """面板编号 (a)(b)(c)：统一置于面板上方外侧左上角，全篇同一坐标。
+
+    ★ 稿约硬性要求：图示为非单图时必须用 a/b/c/d 等编号，
+      并在图注中逐一注明每个面板的图示意义（见 references/figure_spec.md §3.3）。
+    """
     ax.text(0.03, 1.04, tag, transform=ax.transAxes,
             ha="left", va="bottom", fontsize=8)
 
